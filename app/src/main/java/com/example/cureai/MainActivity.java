@@ -1,5 +1,6 @@
 package com.example.cureai;
 
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -15,6 +16,7 @@ import com.loopj.android.http.FileAsyncHttpResponseHandler;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
         wait = findViewById(R.id.wait);
+        wait.setVisibility(View.GONE);
 
         String URL = "https://bikashthapa01.github.io/excel-reader-android-app/story.xls";
         //String apiURL = "https://bikashthapa01.github.io/excel-reader-android-app/";
@@ -62,48 +66,65 @@ public class MainActivity extends AppCompatActivity {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+        try {
+            AssetManager assetManager = getAssets();
+            InputStream inputStream = assetManager.open("procedures.xls");
+            Workbook workbook = Workbook.getWorkbook(inputStream);
+            Sheet sheet = workbook.getSheet(0);
+            int row = sheet.getRows();
 
-        asyncHttpClient = new AsyncHttpClient();
-        asyncHttpClient.get(URL, new FileAsyncHttpResponseHandler(this) {
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
-                Toast.makeText(MainActivity.this, "Error in Downloading Excel File", Toast.LENGTH_SHORT).show();
-                wait.setVisibility(View.GONE);
-                progressBar.setVisibility(View.GONE);
+            for (int i = 1; i < row; i++){
+                storyTitle.add(sheet.getCell(1, i).getContents());
+                storyContent.add(sheet.getCell(3, i).getContents());
             }
 
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, File file) {
-                WorkbookSettings ws = new WorkbookSettings();
-                ws.setGCDisabled(true);
-                if(file != null){
-                    //text.setText("Success, DO something with the file.");
-                    wait.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
+            showData();
 
-                    try {
-                        workbook = Workbook.getWorkbook(file);
-                        Sheet sheet = workbook.getSheet(0);
-                        //Cell[] row = sheet.getRow(1);
-                        //text.setText(row[0].getContents());
-                        for(int i = 0;i< sheet.getRows();i++){
-                            Cell[] row = sheet.getRow(i);
-                            storyTitle.add(row[0].getContents());
-                            storyContent.add( row[1].getContents());
-                            thumbImages.add(row[2].getContents());
-                        }
+        } catch (IOException | BiffException e) {
+            e.printStackTrace();
+        }
 
-                        showData();
-
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (BiffException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
+//        asyncHttpClient = new AsyncHttpClient();
+//        asyncHttpClient.get(URL, new FileAsyncHttpResponseHandler(this) {
+//            @Override
+//            public void onFailure(int statusCode, Header[] headers, Throwable throwable, File file) {
+//                Toast.makeText(MainActivity.this, "Error in Downloading Excel File", Toast.LENGTH_SHORT).show();
+//                wait.setVisibility(View.GONE);
+//                progressBar.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, File file) {
+//                WorkbookSettings ws = new WorkbookSettings();
+//                ws.setGCDisabled(true);
+//                if(file != null){
+//                    //text.setText("Success, DO something with the file.");
+//                    wait.setVisibility(View.GONE);
+//                    progressBar.setVisibility(View.GONE);
+//
+//                    try {
+//                        workbook = Workbook.getWorkbook(file);
+//                        Sheet sheet = workbook.getSheet(0);
+//                        //Cell[] row = sheet.getRow(1);
+//                        //text.setText(row[0].getContents());
+//                        for(int i = 0;i< sheet.getRows();i++){
+//                            Cell[] row = sheet.getRow(i);
+//                            storyTitle.add(row[0].getContents());
+//                            storyContent.add( row[1].getContents());
+//                            thumbImages.add(row[2].getContents());
+//                        }
+//
+//                        showData();
+//
+//
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } catch (BiffException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
     }
 
     private void showData() {

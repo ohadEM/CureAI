@@ -38,7 +38,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String title = titles.get(position);
         String desc = descriptions.get(position);
-        String img = images.get(position);
+//        String img = images.get(position);
 //        Picasso.get().load(images.get(position)).placeholder(R.drawable.placeholder).error(R.drawable.placeholder)
 //                //.resize(75,75)
 //                .fit()
@@ -46,7 +46,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 //                .into(holder.thumbnail);
         holder.title.setText(title);
         holder.desc.setText(desc);
-        Picasso.get().load(img).into(holder.thumbnail);
+//        Picasso.get().load(img).into(holder.thumbnail);
 
     }
 
