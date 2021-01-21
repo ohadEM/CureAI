@@ -29,17 +29,10 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-//    implementation "org.apache.poi:poi:3.17"
-//    implementation "org.apache.poi:poi-ooxml:3.17"
-
-    implementation 'net.sourceforge.jexcelapi:jxl:2.6.12'
-    implementation 'com.loopj.android:android-async-http:1.4.10'
-    implementation 'com.squareup.picasso:picasso:2.71828'
-
 }
