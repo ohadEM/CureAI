@@ -7,7 +7,19 @@
     android:backgroundTint="?attr/colorButtonNormal"
     android:padding="5dp">
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Hello world"
+        app:layout_constraintBottom_toTopOf="@id/card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_gravity="fill_vertical"/>
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/card"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
@@ -23,46 +35,16 @@
             android:padding="5dp">
 
 
-            <ImageView
-                android:id="@+id/cardImg"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.03"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_launcher_background" />
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:text="Sample Title"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cardImg"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
                 android:id="@+id/desc"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_gravity="fill_vertical"
                 android:text="Sample Description for the given title"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cardImg"
-                app:layout_constraintTop_toBottomOf="@+id/title"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

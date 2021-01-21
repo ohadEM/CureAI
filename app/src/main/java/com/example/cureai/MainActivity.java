@@ -1,5 +1,6 @@
 package com.example.cureai;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.view.View;
@@ -40,6 +41,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String text = intent.getStringExtra("Keys");
+
+        List<String> terms = new ArrayList<>();
+        if (text != null) {
+            String[] keys = text.split(",");
+
+            for (int i = 0; i< keys.length; i++){
+                terms.add(keys[i]);
+            }
+        }
+
+
         setContentView(R.layout.activity_main);
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -50,9 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         String URL = "https://bikashthapa01.github.io/excel-reader-android-app/story.xls";
         //String apiURL = "https://bikashthapa01.github.io/excel-reader-android-app/";
-        storyTitle = new ArrayList<>();
         storyContent = new ArrayList<>();
-        thumbImages = new ArrayList<>();
 
 //        // checking if the excel file has new content
 //
@@ -68,17 +80,16 @@ public class MainActivity extends AppCompatActivity {
 //        }
         try {
             AssetManager assetManager = getAssets();
-            InputStream inputStream = assetManager.open("procedures.xls");
+            InputStream inputStream = assetManager.open("noteevents.xls");
             Workbook workbook = Workbook.getWorkbook(inputStream);
             Sheet sheet = workbook.getSheet(0);
             int row = sheet.getRows();
 
             for (int i = 1; i < row; i++){
-                storyTitle.add(sheet.getCell(1, i).getContents());
-                storyContent.add(sheet.getCell(3, i).getContents());
+                storyContent.add(sheet.getCell(0, i).getContents());
             }
 
-            showData();
+            showData(terms);
 
         } catch (IOException | BiffException e) {
             e.printStackTrace();
@@ -127,9 +138,9 @@ public class MainActivity extends AppCompatActivity {
 //        });
     }
 
-    private void showData() {
+    private void showData(List<String> terms) {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new Adapter(this,storyTitle,storyContent,thumbImages);
+        adapter = new Adapter(this, storyContent, terms);
         recyclerView.setAdapter(adapter);
     }
 }
