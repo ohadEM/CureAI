@@ -27,6 +27,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     Adapter adapter;
     ProgressBar progressBar;
     TextView wait;
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +45,16 @@ public class SearchResultsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_search_results);
 
+
         recyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
         wait = findViewById(R.id.wait);
         wait.setVisibility(View.GONE);
+        title = findViewById(R.id.title);
+
+        title.setText(text + "\n");
+
         storyContent = new ArrayList<>();
 
         try {
@@ -56,13 +62,16 @@ public class SearchResultsActivity extends AppCompatActivity {
             InputStream inputStream = assetManager.open("file.txt");
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String str;
-            while ((str = reader.readLine()) != null) {
+            while ((str = reader.readLine()) != null && storyContent.size() < 20) {
                 JSONObject json = new JSONObject(str);
                 String entry = json.getString("TEXT");
                 if (isMatchingFilters(entry, filters)) {
                     storyContent.add(entry);
                 }
             }
+
+            title.append(new Integer(storyContent.size()).toString() + " search results");
+
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter = new Adapter(this, storyContent, new Adapter.ItemClickListener() {
                 @Override
@@ -73,6 +82,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                 }
             });
             recyclerView.setAdapter(adapter);
+
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
