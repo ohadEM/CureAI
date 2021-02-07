@@ -15,7 +15,7 @@
         android:background="#03A9F4"
         android:backgroundTint="#FBFBFB"
         android:gravity="center"
-        android:hint="E.g. bleeding,stroke,anticcaogulant"
+        android:hint="E.g. bleeding,stroke,anticoagulant"
         app:layout_constraintBottom_toTopOf="@id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -44,14 +44,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     private String getPresentIllnessSubstring(String fullText) {
-        int startIndex = fullText.toUpperCase().indexOf("History of Present Illness:".toUpperCase());
-        if (startIndex == -1) {
+//        int startIndex = fullText.toUpperCase().indexOf("History of Present Illness:".toUpperCase());
+//        if (startIndex == -1) {
+//            return fullText;
+        if (!(fullText.toUpperCase().contains("History of Present Illness:".toUpperCase()))) {
             return fullText;
-        } else {
-            String subDesc = fullText.substring(startIndex);
-            String[] suffixSplit = subDesc.split("\n\n");
-            return suffixSplit[0];
         }
+        String subDesc = fullText.split("(?i)History of Present Illness:")[1];
+
+//        String subDesc = fullText.substring(startIndex);
+        String[] suffixSplit = subDesc.split("\n\n");
+        return suffixSplit[0].trim();
+
     }
 
     @Override

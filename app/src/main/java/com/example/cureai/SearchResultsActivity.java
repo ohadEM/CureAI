@@ -11,10 +11,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.JsonParser;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -53,16 +56,17 @@ public class SearchResultsActivity extends AppCompatActivity {
         wait.setVisibility(View.GONE);
         title = findViewById(R.id.title);
 
-        title.setText(text + "\n");
+        title.setText("Search Terms: " + text + "\n" + "Databases: MIMIC\n");
 
         storyContent = new ArrayList<>();
 
         try {
             AssetManager assetManager = getAssets();
-            InputStream inputStream = assetManager.open("file.txt");
+            InputStream inputStream = assetManager.open("notes.txt");
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String str;
-            while ((str = reader.readLine()) != null && storyContent.size() < 20) {
+            while ((str = reader.readLine()) != null) {
                 JSONObject json = new JSONObject(str);
                 String entry = json.getString("TEXT");
                 if (isMatchingFilters(entry, filters)) {
@@ -70,7 +74,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                 }
             }
 
-            title.append(new Integer(storyContent.size()).toString() + " search results");
+            title.append(new Integer(storyContent.size()).toString() + " Cases Found");
 
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter = new Adapter(this, storyContent, new Adapter.ItemClickListener() {
@@ -90,10 +94,10 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     private boolean isMatchingFilters(String entry, List<String> filters) {
         for (String filter : filters) {
-            if (entry.contains(filter)) {
-                return true;
+            if (!entry.contains(filter)) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 }
