@@ -31,6 +31,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     ProgressBar progressBar;
     TextView wait;
     TextView title;
+    String[] keys;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         String text = intent.getStringExtra("Keys");
         List<String> filters = new ArrayList<>();
         if (text != null) {
-            String[] keys = text.split(",");
+            keys = text.split(",");
 
             for (int i = 0; i < keys.length; i++) {
                 filters.add(keys[i]);
@@ -75,13 +76,14 @@ public class SearchResultsActivity extends AppCompatActivity {
             }
 
             title.append(new Integer(storyContent.size()).toString() + " Cases Found");
-
+co
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
             adapter = new Adapter(this, storyContent, new Adapter.ItemClickListener() {
                 @Override
                 public void onItemClicked(String text) {
                     Intent newIntent = new Intent(SearchResultsActivity.this, ViewItemActivity.class);
                     newIntent.putExtra(ViewItemActivity.ITEM_TEXT, text);
+                    newIntent.putExtra("Keys", keys);
                     startActivity(newIntent);
                 }
             });
